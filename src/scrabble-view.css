@@ -1,0 +1,48 @@
+.board-row {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.square {
+  background: blanchedalmond;
+  border: 1px solid black;
+  float: left;
+  font-weight: bold;
+  height: 34px;
+  line-height: 34px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+/* square types */
+.tripleWord {
+  background: red;
+}
+
+.doubleWord {
+  background: #ff8080;
+}
+
+.tripleLetter {
+  background: blue;
+}
+
+.doubleLetter {
+  background: lightblue;
+}
+
+.lockedSquare {
+  background: grey;
+  color: black;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info {
+  margin: 2em;
+}
