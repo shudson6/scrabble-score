@@ -25,6 +25,7 @@ const LetterValues = new Map([
   ,['x', 8]
   ,['y', 4]
   ,['z', 10]
+  ,[' ', 0]
 ]);
 
 export default LetterValues;
