@@ -5,6 +5,8 @@ import { BoardView } from './scrabble-view';
 import BoardLayout from './board-layout.json';
 import { countAllTileValues, calculateCurrentWordScore } from './word-score';
 
+import './index.css';
+
 function Game(props) {
   const [squares, setSquares] = useState(initialSquares());
 
