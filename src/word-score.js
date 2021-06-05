@@ -20,30 +20,9 @@ export function countAllTileValues(squares) {
  */
 export function calculateCurrentWordScore(squares) {
   const currentLetters = getCurrentLetters(squares);
-  let words = [];
-  if (allOnSameRow(currentLetters)) {
-    if (continuousOnRow(squares, currentLetters)) {
-      console.log("good row");
-      if (currentLetters.length > 0) {
-        const positions = getWordPositionsHorizontal(squares, currentLetters[0]);
-        words = collectWordsHorizontal(squares, positions);
-      }
-    }
-    else {
-      console.log("same row, not continuous");
-    }
-  }
-  else if (allOnSameColumn(currentLetters)) {
-    if (continuousOnColumn(squares, currentLetters)) {
-      console.log("good col");
-      if (currentLetters.length > 0) {
-        const positions = getWordPositionsVertical(squares, currentLetters[0]);
-        words = collectWordsVertical(squares, positions);
-      }
-    }
-    else {
-      console.log("same col, not continuous");
-    }
+  let words = evaluateRowwise(squares, currentLetters);
+  if (words.length === 0) {
+    words = evaluateColumnwise(squares, currentLetters);
   }
   if (words.length > 0) {
     scoreWords(squares, words);
@@ -51,6 +30,58 @@ export function calculateCurrentWordScore(squares) {
   console.log({ words });
   words.total = words.reduce((total, word) => total + word.score, 0);
   return words;
+}
+
+function evaluateColumnwise(squares, currentLetters) {
+  if (currentLetters.length === 1
+      && !hasVerticalNeighbor(squares, currentLetters[0])) {
+    return [];
+  }
+  if (currentLetters.length < 1 || !allOnSameColumn(currentLetters)) {
+    return [];
+  }
+  if ( !continuousOnColumn(squares, currentLetters)) {
+    return [];
+  }
+  const positions = getWordPositionsVertical(squares, currentLetters[0]);
+  return collectWordsVertical(squares, positions);
+}
+
+function evaluateRowwise(squares, currentLetters) {
+  if (currentLetters.length === 1 
+      && !hasHorizontalNeighbor(squares, currentLetters[0])) {
+    return [];
+  }
+  if (currentLetters.length < 1 || !allOnSameRow(currentLetters)) {
+    return [];
+  }
+  if ( !continuousOnRow(squares, currentLetters)) {
+    return [];
+  }
+  const positions = getWordPositionsHorizontal(squares, currentLetters[0]);
+  return collectWordsHorizontal(squares, positions);
+}
+
+function hasVerticalNeighbor(squares, position) {
+  const [row, col] = position;
+  if (row > 0 && squares[row - 1][col].letter) {
+    return true;
+  }
+  if (row + 1 < squares.length && squares[row + 1][col].letter) {
+    return true;
+  }
+  return false;
+}
+
+function hasHorizontalNeighbor(squares, position) {
+  const [row, col] = position;
+  if (col > 0 && squares[row][col - 1].letter) {
+    return true;
+  }
+  if (col + 1 < squares[row].length && squares[row][col + 1].letter) {
+    return true;
+  }
+  return false;
 }
 
 function getCurrentLetters(squares) {
