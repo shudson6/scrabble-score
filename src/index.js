@@ -4,6 +4,7 @@ import { SquareType } from './scrabble-board';
 import { BoardView } from './scrabble-view';
 import BoardLayout from './board-layout.json';
 import { countAllTileValues, calculateCurrentWordScore } from './word-score';
+import History from './history';
 
 import './index.css';
 
@@ -23,6 +24,7 @@ function Game(props) {
 
   const lockUsedSquares = () => {
     // copy board
+    const previous = squares;
     const update = squares.map(row => row.slice());
     // replace each played, unlocked square with a locked version:
     for (let row = 0; row < update.length; row++) {
@@ -34,6 +36,7 @@ function Game(props) {
       }
     }
     setSquares(update);
+    History.add(() => setSquares(previous));
   }
 
   const renderScore = () => {
@@ -60,6 +63,10 @@ function Game(props) {
       <div className="game-info">
         <div>
           <button onClick={ lockUsedSquares }>Lock Squares</button>
+          <button
+            onClick={ History.undo }
+            disabled={ !History.canUndo() }
+          >Undo</button>
         </div>
         <div>
           Total value of letters played: { countAllTileValues(squares) }
