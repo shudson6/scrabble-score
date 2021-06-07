@@ -1,6 +1,12 @@
 import LetterValues from './letter-values';
 import { SquareType } from './scrabble-board';
 
+/**
+ * Counts the value of all letters on the board.
+ * 
+ * @param squares 2D-array representing the game board
+ * @returns the sum of values of all letters on the board
+ */
 export function countAllTileValues(squares) {
   let score = 0;
   squares.forEach((rowSquares, rowNum) => {
@@ -13,10 +19,17 @@ export function countAllTileValues(squares) {
 }
 
 /**
- * Checks that all unlocked, played squares are on a single row or column.
- * Identifies as individual words each group of contiguous, played squares
- * which includes at least one unlocked square.
- * Returns an n x 2 array mapping each word to its value.
+ * Calculates the score of the current play, that is the total value of letters
+ * on unlocked squares, adjusted for premium tiles (double word, etc).
+ * Identifies each word formed by the current play. This is necessary for proper
+ * scoring.
+ * Return value is an array of objects mapping each word to its score:
+ * [{ word, score }, ...]
+ * The array object itself is given a 'total' property to contain the sum of
+ * the individual word scores.
+ * 
+ * @param squares 2D-array representing the game board
+ * @returns array containing score breakdown as described above
  */
 export function calculateCurrentWordScore(squares) {
   const currentLetters = getCurrentLetters(squares);
