@@ -1,19 +1,19 @@
 .board-row {
   clear: both;
   content: "";
-  display: table;
+  display: block;
 }
 
 .square {
   background: blanchedalmond;
   border: 1px solid black;
-  float: left;
   font-weight: bold;
-  height: 34px;
-  line-height: 34px;
+  height: 2em;
+  line-height: 2em;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 2em;
+  display: inline-block;
 }
 
 /* square types */
@@ -41,6 +41,8 @@
 .game {
   display: flex;
   flex-direction: row;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .game-info {
